@@ -22,6 +22,9 @@ public class DashboardScreen extends Screen {
 
     @Override
     public void render() throws Exception {
+
+        logger.info("DashboardScreen#render invoked");
+
         AppUser sessionUser = userService.getSessionUser();
         while (userService.isSessionActive()) {
             Account sessionAcct = acctService.findMyAcct();
