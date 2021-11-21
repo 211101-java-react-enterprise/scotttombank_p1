@@ -23,6 +23,9 @@ public class LoginScreen extends Screen {
 
     @Override
     public void render() throws Exception {
+
+        logger.info("LoginScreen#render invoked");
+
         System.out.println("\nLog in to see your ScottBank account details\n");
         System.out.print("Email: ");
         String email = consoleReader.readLine();
@@ -36,13 +39,14 @@ public class LoginScreen extends Screen {
             userService.authUser(email, password);
             String msg = "Successful authentication of email " + email +
                     " on " + date + " at " + time;
-            logger.log(msg);
+            logger.info(msg);
+
             router.navigate("/dashboard");
         } catch (InvalidRequestException | AuthenticationException e) {
             String msg = email + " on " + date + " at " + time + " -- " +
                     e.getMessage();
             System.out.println(e.getMessage());
-            logger.log(msg);
+            logger.info(msg);
         }
     }
 
