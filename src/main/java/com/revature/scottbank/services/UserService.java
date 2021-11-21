@@ -21,7 +21,7 @@ public class UserService {
     public boolean registerNewUser(AppUser newUser) {
         if (!isUserValid(newUser)) {
             throw new InvalidRequestException("Please provide all " +
-                    "requested information");
+                    "valid user information");
         }
         boolean emailAvailable =
                 userDAO.findByEmail(newUser.getEmail()) == null;
@@ -56,8 +56,8 @@ public class UserService {
                 "")) return false;
         if (user.getLastName() == null || user.getLastName().trim().equals(
                 "")) return false;
-        if (user.getEmail() == null || user.getEmail().trim().equals(
-                "")) return false;
+        if (user.getEmail() == null || user.getEmail().trim().equals("") || !user.getEmail().contains("@") || !user.getEmail().contains("."))
+            return false;
         return user.getPassword() != null && !user.getPassword().trim().equals("");
     }
 

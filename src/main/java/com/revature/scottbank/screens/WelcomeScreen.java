@@ -13,6 +13,9 @@ public class WelcomeScreen extends Screen {
 
     @Override
     public void render() throws Exception {
+
+        logger.info("WelcomeScreen#render invoked");
+
         String menu = "\n\nScottBank\n\n" +
                 "1) Log In\n" +
                 "2) Open A New Account\n" +

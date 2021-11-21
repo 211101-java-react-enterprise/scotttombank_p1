@@ -23,6 +23,9 @@ public class NewAcctScreen extends Screen {
 
     @Override
     public void render() throws Exception {
+
+        logger.info("NewAcctScreen#render invoked");
+
         String stmt = "\nPlease provide the following required information.\n";
         System.out.println(stmt);
         System.out.print("First Name: ");
@@ -37,11 +40,20 @@ public class NewAcctScreen extends Screen {
         try {
             userService.registerNewUser(newUser);
             acctService.openNewAcct(newUser);
+
+            logger.info("{} was successfully registered", email);
+
             System.out.println("\nSign Up was successful\n");
             router.navigate("/login");
         } catch (InvalidRequestException | ResourcePersistenceException e) {
+
+            //TODO insert a logger here
+
             System.out.println(e.getMessage());
         } catch (Exception e) {
+
+            //TODO insert a logger here
+
             e.printStackTrace();
         }
     }
