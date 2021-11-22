@@ -58,7 +58,7 @@ public class AcctService {
     }
 
     public double formatAmount(String deposit) {
-        if (deposit == null || deposit.equals("")) {
+        if (deposit.equals("")) {
             throw new InvalidRequestException("No deposit amount entered");
         }
         double amount;
