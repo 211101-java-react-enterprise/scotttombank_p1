@@ -19,6 +19,9 @@ public class DepositScreen extends Screen {
 
     @Override
     public void render() throws Exception {
+
+        logger.info("DepositScreen#render invoked");
+
         System.out.print("\nEnter the amount you would like to deposit\n" +
                 "> $");
         String deposit = consoleReader.readLine();

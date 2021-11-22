@@ -22,12 +22,15 @@ public class DashboardScreen extends Screen {
 
     @Override
     public void render() throws Exception {
+
+        logger.info("DashboardScreen#render invoked");
+
         AppUser sessionUser = userService.getSessionUser();
         while (userService.isSessionActive()) {
             Account sessionAcct = acctService.findMyAcct();
             System.out.printf("\n%s %s\n", sessionUser.getFirstName(),
                     sessionUser.getLastName());
-            System.out.printf("Account %s\n", sessionAcct.getId());
+            System.out.printf("Account %s\n", sessionAcct.getFormattedId());
             double balance = (Math.round(sessionAcct.getBalance() * 100)) / 100.0f;
             System.out.printf("Balance: $%,8.2f\n", balance);
             String menu = "1) Deposit to Your Account\n" +

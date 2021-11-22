@@ -1,16 +1,17 @@
 package com.revature.scottbank.screens;
 
-import com.revature.scottbank.util.Logger;
 import com.revature.scottbank.util.ScreenRouter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 
 public abstract class Screen {
 
-    String route;
-    BufferedReader consoleReader;
-    ScreenRouter router;
-    Logger logger = Logger.getLogger(false);
+    protected String route;
+    protected BufferedReader consoleReader;
+    protected ScreenRouter router;
+    protected Logger logger = LogManager.getLogger();
 
     public Screen(String route, BufferedReader consoleReader,
                   ScreenRouter router) {

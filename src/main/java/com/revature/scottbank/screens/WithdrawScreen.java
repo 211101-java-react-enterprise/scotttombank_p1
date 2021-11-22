@@ -19,6 +19,9 @@ public class WithdrawScreen extends Screen {
 
     @Override
     public void render() throws Exception {
+
+        logger.info("WithdrawScreen#render invoked");
+
         System.out.print("\nEnter the amount you would like to withdraw\n" +
                 "> $");
         String withdrawal = consoleReader.readLine();
