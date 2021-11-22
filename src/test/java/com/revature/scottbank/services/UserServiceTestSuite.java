@@ -4,10 +4,8 @@ import com.revature.scottbank.daos.AppUserDAO;
 import com.revature.scottbank.exceptions.InvalidRequestException;
 import com.revature.scottbank.exceptions.ResourcePersistenceException;
 import com.revature.scottbank.models.AppUser;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+
 import static org.mockito.Mockito.*;
 
 public class UserServiceTestSuite {
@@ -25,9 +23,33 @@ public class UserServiceTestSuite {
     public void testCaseCleanUp() { sut = null; }
 
     @Test
+    public void test_logout_returnNull() {
+         sut.logout();
+         AppUser actualResult = sut.getSessionUser();
+
+         Assert.assertNull("Expected sessionUser to be null", actualResult);
+
+    }
+
+    @Test
+    public void test_isSessionActive_returnsFalse() {
+        boolean actualResult = sut.isSessionActive();
+
+        Assert.assertFalse("Expected sessionActive to be false", actualResult);
+    }
+
+    @Test
+    public void test_getSessionUser_returnsTrue_givenSessionUserIsNull() {
+
+        AppUser actualResult = sut.getSessionUser();
+
+        Assert.assertNull("Expected sessionUser to be considered null", actualResult);
+    }
+
+    @Test
     public void test_isUserValid_returnsTrue_givenValidUser() {
         // Arrange
-        AppUser validUser = new AppUser("valid", "valid", "valid", "valid");
+        AppUser validUser = new AppUser("valid", "valid", "valid@valid.com", "valid");
 
         // Act
         boolean actualResult = sut.isUserValid(validUser);
@@ -43,11 +65,16 @@ public class UserServiceTestSuite {
         AppUser invalidUser_1 = new AppUser(null, "valid", "valid", "valid");
         AppUser invalidUser_2 = new AppUser("", "valid", "valid", "valid");
         AppUser invalidUser_3 = new AppUser("    ", "valid", "valid", "valid");
+        AppUser invalidUser_4 = new AppUser("valid", "valid", "valid", "valid");
+        AppUser invalidUser_5 = new AppUser("valid", "", "valid", "valid");
+
 
         // Act
         boolean actualResult_1 = sut.isUserValid(invalidUser_1);
         boolean actualResult_2 = sut.isUserValid(invalidUser_2);
         boolean actualResult_3 = sut.isUserValid(invalidUser_3);
+        boolean actualResult_4 = sut.isUserValid(invalidUser_4);
+        boolean actualResult_5 = sut.isUserValid(invalidUser_5);
 
         // Assert
         Assert.assertFalse("Expected user to be considered invalid",
@@ -56,14 +83,30 @@ public class UserServiceTestSuite {
                 actualResult_2);
         Assert.assertFalse("Expected user to be considered invalid",
                 actualResult_3);
+        Assert.assertFalse("Expected user to be considered invalid",
+                actualResult_4);
+        Assert.assertFalse("Expected user to be considered invalid",
+                actualResult_5);
+    }
 
+    @Ignore //(expected = ResourcePersistenceException.class)
+    public void test_registerNewUser_throwsResourcePersistenceException_givenNullUser() {
+        AppUser nullUser = new AppUser("valid", "valid", "valid@gmail.com","valid");
+        when(mockUserDAO.findByEmail(nullUser.getEmail())).thenReturn(null);
+        when(mockUserDAO.save(nullUser)).thenReturn(null);
+
+        try {
+            boolean actualResult = sut.registerNewUser(nullUser);
+        } finally {
+            verify(mockUserDAO, times(0)).save(nullUser);;
+        }
     }
 
     @Test
     public void test_registerNewUser_returnsTrue_givenValidUser() {
 
         // Arrange
-        AppUser validUser = new AppUser("valid", "valid", "valid", "valid");
+        AppUser validUser = new AppUser("valid", "valid", "valid@valid.com", "valid");
         when(mockUserDAO.findByEmail(validUser.getEmail())).thenReturn(null);
         when(mockUserDAO.save(validUser)).thenReturn(validUser);
 
@@ -81,7 +124,7 @@ public class UserServiceTestSuite {
     public void test_registerNewUser_throwsResourcePersistenceException_givenValidUserWithTakenEmail() {
 
         // Arrange
-        AppUser validUser = new AppUser("valid", "valid", "valid", "valid");
+        AppUser validUser = new AppUser("valid", "valid", "valid@valid.com", "valid");
         when(mockUserDAO.findByEmail(validUser.getEmail())).thenReturn(new AppUser());
         when(mockUserDAO.save(validUser)).thenReturn(validUser);
 
@@ -99,7 +142,7 @@ public class UserServiceTestSuite {
     public void test_registerNewUser_throwsInvalidRequestException_givenInvalidUser() {
 
         // Arrange
-        AppUser invalidUser = new AppUser("", "valid", "valid", "valid");
+        AppUser invalidUser = new AppUser("", "valid", "valid@valid.com", "valid");
         when(mockUserDAO.findByEmail(invalidUser.getEmail())).thenReturn(null);
         when(mockUserDAO.save(invalidUser)).thenReturn(invalidUser);
 

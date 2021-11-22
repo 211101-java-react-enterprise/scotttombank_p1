@@ -5,6 +5,8 @@ import com.revature.scottbank.daos.AppUserDAO;
 import com.revature.scottbank.screens.*;
 import com.revature.scottbank.services.AcctService;
 import com.revature.scottbank.services.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,6 +15,7 @@ public class AppState {
 
     private static boolean appRunning;
     private final ScreenRouter router;
+    protected Logger logger = LogManager.getLogger();
 
     public AppState() {
         appRunning = true;
@@ -26,8 +29,7 @@ public class AppState {
         AcctDAO acctDAO = new AcctDAO();
         AcctService acctService = new AcctService(acctDAO, userService);
 
-        Logger logger = Logger.getLogger(true);
-        logger.log("Initializing app...");
+        logger.info("Initializing app...");
 
         router.addScreen(new WelcomeScreen(consoleReader, router));
         router.addScreen(new NewAcctScreen(consoleReader, router, userService
@@ -40,7 +42,7 @@ public class AppState {
         router.addScreen(new WithdrawScreen(consoleReader, router,
                 acctService));
 
-        logger.log("App initialized");
+        logger.info("App initialized");
     }
 
     public void startup() {
