@@ -9,7 +9,7 @@ import com.revature.scottbank.models.AppUser;
 public class AcctService {
 
     private final AcctDAO acctDAO;
-    private Account sessionAcct;
+    Account sessionAcct;
     private final UserService userService;
 
     public AcctService(AcctDAO acctDAO, UserService userService) {
@@ -25,51 +25,40 @@ public class AcctService {
 
     public void openNewAcct(AppUser user) {
         Account newAcct = new Account();
-        Account savedAcct = acctDAO.save(newAcct, user);
-        if (savedAcct == null) {
-            throw new ResourcePersistenceException("The account could not be " +
-                    "persisted to the datasource");
-        }
+        acctDAO.save(newAcct, user);
     }
 
-    public void makeDeposit(String deposit) {
+    public boolean makeDeposit(String deposit) {
         double amount = formatAmount(deposit);
         double newBalance = amount + sessionAcct.getBalance();
         Account acct = new Account();
         acct.setId(sessionAcct.getId());
         acct.setBalance(newBalance);
-        if (!acctDAO.update(acct)) {
-            throw new ResourcePersistenceException("The deposit was " +
-                    "unsuccessful");
-        }
+        acctDAO.update(acct);
+        return true;
     }
 
-    public void makeWithdrawal(String withdrawal) {
+    public boolean makeWithdrawal(String withdrawal) {
         double amount = formatAmount(withdrawal);
         double newBalance = sessionAcct.getBalance() - amount;
         if (newBalance >= 0) {
             Account acct = new Account();
             acct.setId(sessionAcct.getId());
             acct.setBalance(newBalance);
-            if (!acctDAO.update(acct)) {
-                throw new ResourcePersistenceException("The withdrawal was " +
-                        "unsuccessful");
-            }
+            acctDAO.update(acct);
         } else {
             throw new InvalidRequestException("Withdrawal must not be more " +
                     "than your account balance");
         }
-    }
-
-    public boolean isAmountValid(double amount) {
-        if (amount <= 0) {
-            throw new InvalidRequestException("Invalid Input");
-        }
         return true;
     }
 
+    public boolean isAmountValid(double amount) {
+        return !(amount <= 0);
+    }
+
     public double formatAmount(String deposit) {
-        if (deposit == null || deposit.equals("")) {
+        if (deposit.equals("")) {
             throw new InvalidRequestException("No deposit amount entered");
         }
         double amount;
@@ -77,13 +66,13 @@ public class AcctService {
             amount = Double.parseDouble(deposit);
         } catch (NumberFormatException e) {
             throw new InvalidRequestException("Invalid Input");
-        } catch (NullPointerException e) {
-            throw new InvalidRequestException("No deposit amount entered");
         }
         if (isAmountValid(amount)) {
-            amount = (Math.round(amount * 100)) / 100.00f;
+            amount = (Math.round(amount * 100)) / 100.00d;
+        } else {
+            throw new InvalidRequestException("Amount must be a positive " +
+                    "number");
         }
         return amount;
     }
-
  }
