@@ -3,12 +3,12 @@ package com.revature.scottbank.daos;
 import com.revature.scottbank.models.Account;
 import com.revature.scottbank.models.AppUser;
 import com.revature.scottbank.util.ConnectionFactory;
-import com.revature.scottbank.util.collections.List;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 public class AcctDAO implements CrudDAO<Account> {

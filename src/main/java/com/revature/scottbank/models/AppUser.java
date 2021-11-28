@@ -1,6 +1,6 @@
 package com.revature.scottbank.models;
 
-public class AppUser extends Object {
+public class AppUser {
 
     private String id;
     private String firstName;

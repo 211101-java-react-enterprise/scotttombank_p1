@@ -2,7 +2,6 @@ package com.revature.scottbank.services;
 
 import com.revature.scottbank.daos.AcctDAO;
 import com.revature.scottbank.exceptions.InvalidRequestException;
-import com.revature.scottbank.exceptions.ResourcePersistenceException;
 import com.revature.scottbank.models.Account;
 import com.revature.scottbank.models.AppUser;
 

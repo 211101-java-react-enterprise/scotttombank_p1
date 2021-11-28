@@ -1,6 +1,5 @@
 package com.revature.scottbank.util;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +10,7 @@ public class ConnectionFactory {
 
     private static final ConnectionFactory connectionFactory =
             new ConnectionFactory();
-    private Properties props = new Properties();
+    private final Properties props = new Properties();
 
     static {
         try {
@@ -23,7 +22,8 @@ public class ConnectionFactory {
 
     private ConnectionFactory() {
         try {
-            props.load(new FileReader("src/main/resources/db.properties"));
+            ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            props.load(loader.getResourceAsStream("db.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
