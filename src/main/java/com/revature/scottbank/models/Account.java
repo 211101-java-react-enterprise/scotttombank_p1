@@ -1,6 +1,6 @@
 package com.revature.scottbank.models;
 
-public class Account extends Object {
+public class Account {
 
     private String id;
     private double balance;
@@ -21,11 +21,13 @@ public class Account extends Object {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-//    Shows only the last 4 digits of acct # with 2 leading asterisks
+/*
+    Shows only the last 4 digits of acct # with 2 leading asterisks
     public String getFormattedId() {
         int idx = id.length() - 4;
         return "**" + id.substring(idx);
     }
+*/
 
     public double getBalance() { return balance; }
     public void setBalance(double balance) { this.balance = balance; }

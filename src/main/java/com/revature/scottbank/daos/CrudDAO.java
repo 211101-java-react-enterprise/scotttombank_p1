@@ -1,6 +1,6 @@
 package com.revature.scottbank.daos;
 
-import com.revature.scottbank.util.collections.List;
+import java.util.List;
 
 public interface CrudDAO<T> {
     T save(T newObj);
