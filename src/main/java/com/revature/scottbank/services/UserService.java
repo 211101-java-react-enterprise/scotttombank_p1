@@ -9,14 +9,10 @@ import com.revature.scottbank.models.AppUser;
 public class UserService {
 
     private final AppUserDAO userDAO;
-    private AppUser sessionUser;
 
     public UserService(AppUserDAO userDAO) {
         this.userDAO = userDAO;
-        this.sessionUser = null;
     }
-
-    public AppUser getSessionUser() { return sessionUser; }
 
     public boolean registerNewUser(AppUser newUser) {
         if (!isUserValid(newUser)) {
@@ -37,7 +33,7 @@ public class UserService {
         return true;
     }
 
-    public void authUser(String email, String password) {
+    public AppUser authUser(String email, String password) {
         if (email == null || email.trim().equals("") || password == null ||
                 password.trim().equals("")) {
             throw new InvalidRequestException("Email and password are required for logging " +
@@ -47,7 +43,7 @@ public class UserService {
         if (authUser == null) {
             throw new AuthenticationException();
         }
-        sessionUser = authUser;
+        return authUser;
     }
 
     public boolean isUserValid(AppUser user) {
@@ -60,9 +56,5 @@ public class UserService {
             return false;
         return user.getPassword() != null && !user.getPassword().trim().equals("");
     }
-
-    public boolean isSessionActive() { return sessionUser != null; }
-
-    public void logout() { sessionUser = null; }
 
 }
