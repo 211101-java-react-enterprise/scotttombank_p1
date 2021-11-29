@@ -17,10 +17,10 @@ public class AcctService {
         this.sessionAcct = null;
     }
 
-    public Account findMyAcct() {
-        sessionAcct = acctDAO.findByHolderId(userService.getSessionUser().getId());
-        return sessionAcct;
-    }
+//    public Account findMyAcct() {
+//        sessionAcct = acctDAO.findByHolderId(userService.getSessionUser().getId());
+//        return sessionAcct;
+//    }
 
     public void openNewAcct(AppUser user) {
         Account newAcct = new Account();

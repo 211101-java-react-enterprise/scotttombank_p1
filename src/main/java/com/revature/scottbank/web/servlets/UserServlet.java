@@ -51,6 +51,6 @@ public class UserServlet extends HttpServlet {
             resp.setStatus(400);
         }
 
-
     }
+
 }
