@@ -1,4 +1,4 @@
-package com.revature.scottbank.util;
+package com.revature.scottbank.orm;
 
 import java.io.IOException;
 import java.sql.Connection;

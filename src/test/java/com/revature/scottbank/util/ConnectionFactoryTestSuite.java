@@ -1,5 +1,6 @@
 package com.revature.scottbank.util;
 
+import com.revature.scottbank.orm.ConnectionFactory;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,8 +1,7 @@
 package com.revature.scottbank.daos;
 
-import com.revature.scottbank.models.Account;
 import com.revature.scottbank.models.AppUser;
-import com.revature.scottbank.util.ConnectionFactory;
+import com.revature.scottbank.orm.ConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-public class AcctDAO implements CrudDAO<Account> {
+public class AcctDAO {
 
     public Account save(Account newAcct, AppUser user) {
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
@@ -21,7 +20,7 @@ public class AcctDAO implements CrudDAO<Account> {
                     "values (?, ?, ?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, newAcct.getId());
-            pstmt.setDouble(2, newAcct.getBalance());
+            pstmt.setString(2, String.valueOf(newAcct.getBalance()));
             pstmt.setString(3, newAcct.getHolderId());
             int rowsInserted = pstmt.executeUpdate();
             if (rowsInserted != 0) {
