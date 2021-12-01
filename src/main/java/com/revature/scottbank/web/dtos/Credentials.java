@@ -21,4 +21,11 @@ public class Credentials {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return "Credentials{" +
+                "email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

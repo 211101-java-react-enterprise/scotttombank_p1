@@ -1,8 +1,6 @@
 package com.revature.scottbank.services;
 
-import com.revature.scottbank.daos.AcctDAO;
 import com.revature.scottbank.exceptions.InvalidRequestException;
-import com.revature.scottbank.models.Account;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
