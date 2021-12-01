@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 public class UserServlet extends HttpServlet {
 
@@ -24,10 +25,11 @@ public class UserServlet extends HttpServlet {
         this.mapper = mapper;
     }
 
+    // register new user
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        PrintWriter respWriter = resp.getWriter();
+//        PrintWriter respWriter = resp.getWriter();
         resp.setContentType("application/json");
 /*
         BufferedReader reqReader =
@@ -42,7 +44,9 @@ public class UserServlet extends HttpServlet {
             boolean wasRegistered = userService.registerNewUser(newUser);
             if (wasRegistered) {
                 System.out.println("User successfully registered");
-                resp.setStatus(201);
+//                resp.setStatus(201);
+                String payload = mapper.writeValueAsString(newUser);
+                resp.getWriter().write(payload);
             } else {
                 System.out.println("Could not persist user. Check logs");
                 resp.setStatus(500);

@@ -1,9 +1,7 @@
 package com.revature.scottbank.web.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.scottbank.daos.AcctDAO;
 import com.revature.scottbank.daos.AppUserDAO;
-import com.revature.scottbank.services.AcctService;
 import com.revature.scottbank.services.UserService;
 import com.revature.scottbank.web.servlets.AuthServlet;
 import com.revature.scottbank.web.servlets.UserServlet;

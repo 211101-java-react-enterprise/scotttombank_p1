@@ -82,7 +82,7 @@ public class UserServiceTestSuite {
 
         // Arrange
         AppUser validUser = new AppUser("valid", "valid", "valid", "valid");
-        when(mockUserDAO.findByEmail(validUser.getEmail())).thenReturn(new AppUser());
+        when(mockUserDAO.findByEmail(validUser.getEmail())).thenReturn(true);
         when(mockUserDAO.save(validUser)).thenReturn(validUser);
 
         // Act

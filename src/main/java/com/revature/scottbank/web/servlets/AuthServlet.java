@@ -32,8 +32,8 @@ public class AuthServlet extends HttpServlet {
                     Credentials.class);
             AppUser authUser = userService.authUser(creds.getEmail(),
                     creds.getPassword());
-            HttpSession session = req.getSession();
-            session.setAttribute("authUser", authUser);
+            HttpSession httpSession = req.getSession();
+            httpSession.setAttribute("authUser", authUser.toString());
             resp.setStatus(204);
         } catch (InvalidRequestException | UnrecognizedPropertyException e) {
             resp.setStatus(400);
