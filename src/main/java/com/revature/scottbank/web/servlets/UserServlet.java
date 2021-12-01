@@ -28,7 +28,6 @@ public class UserServlet extends HttpServlet {
 
         try {
             AppUser newUser = mapper.readValue(req.getInputStream(), AppUser.class);
-            System.out.println("\n" + newUser.toString());
             boolean wasRegistered = userService.registerNewUser(newUser);
             if (wasRegistered) {
                 System.out.println("User successfully registered");
