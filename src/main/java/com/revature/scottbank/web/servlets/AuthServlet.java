@@ -8,12 +8,10 @@ import com.revature.scottbank.models.AppUser;
 import com.revature.scottbank.services.UserService;
 import com.revature.scottbank.web.dtos.Credentials;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 
 public class AuthServlet extends HttpServlet {
 
@@ -26,7 +24,7 @@ public class AuthServlet extends HttpServlet {
     }
 
     // login
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             Credentials creds = mapper.readValue(req.getInputStream(),
                     Credentials.class);
@@ -47,7 +45,7 @@ public class AuthServlet extends HttpServlet {
     }
 
     // logout
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().invalidate();
     }
 

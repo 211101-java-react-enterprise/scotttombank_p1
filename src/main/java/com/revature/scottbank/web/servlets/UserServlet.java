@@ -5,15 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.scottbank.models.AppUser;
 import com.revature.scottbank.services.UserService;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 
 public class UserServlet extends HttpServlet {
 
@@ -27,24 +22,17 @@ public class UserServlet extends HttpServlet {
 
     // register new user
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-//        PrintWriter respWriter = resp.getWriter();
         resp.setContentType("application/json");
-/*
-        BufferedReader reqReader =
-                new BufferedReader(new InputStreamReader(req.getInputStream()));
-        String line;
-        while ((line = reqReader.readLine()) != null) {
-            System.out.println(line);
-        }
-*/
+
         try {
             AppUser newUser = mapper.readValue(req.getInputStream(), AppUser.class);
+            System.out.println("\n" + newUser.toString());
             boolean wasRegistered = userService.registerNewUser(newUser);
             if (wasRegistered) {
                 System.out.println("User successfully registered");
-//                resp.setStatus(201);
+                resp.setStatus(201);
                 String payload = mapper.writeValueAsString(newUser);
                 resp.getWriter().write(payload);
             } else {

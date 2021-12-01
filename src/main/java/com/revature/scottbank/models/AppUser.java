@@ -19,7 +19,7 @@ public class AppUser {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.balance = 0.00d;
+//        this.balance = 0.00d;
     }
 
     public AppUser() { super(); }

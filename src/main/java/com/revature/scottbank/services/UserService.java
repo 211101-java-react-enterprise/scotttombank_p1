@@ -58,11 +58,10 @@ public class UserService {
 
     public boolean makeDeposit(AppUser appUser, String value) {
 
-        double amount = formatAmount(value);
+        double amount = formatAmount(value); // helper
         double newBalance = amount + appUser.getBalance();
         appUser.setBalance(newBalance);
-        userDAO.updateBalance(appUser);
-        return true;
+        return userDAO.updateBalance(appUser);
     }
 
     public boolean makeWithdrawal(AppUser appUser, String value) {

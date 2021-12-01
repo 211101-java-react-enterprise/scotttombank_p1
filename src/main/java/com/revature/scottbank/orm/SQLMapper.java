@@ -37,7 +37,6 @@ public class SQLMapper {
             for (int i = 0; i < fieldQty; i++) {
                 pstmt.setObject(i + 1, methods[i].invoke(obj));
              }
-
             int rowsInserted = pstmt.executeUpdate();
             if (rowsInserted != 0) {
                 return true;
@@ -75,7 +74,6 @@ public class SQLMapper {
         }
         return null;
     }
-
 
     public boolean update(String table, String[][] changes, String[] id) {
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
