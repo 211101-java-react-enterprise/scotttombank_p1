@@ -29,22 +29,12 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-//        PrintWriter respWriter = resp.getWriter();
-        resp.setContentType("application/json");
-/*
-        BufferedReader reqReader =
-                new BufferedReader(new InputStreamReader(req.getInputStream()));
-        String line;
-        while ((line = reqReader.readLine()) != null) {
-            System.out.println(line);
-        }
-*/
         try {
             AppUser newUser = mapper.readValue(req.getInputStream(), AppUser.class);
             boolean wasRegistered = userService.registerNewUser(newUser);
             if (wasRegistered) {
                 System.out.println("User successfully registered");
-//                resp.setStatus(201);
+                resp.setStatus(201);
                 String payload = mapper.writeValueAsString(newUser);
                 resp.getWriter().write(payload);
             } else {
