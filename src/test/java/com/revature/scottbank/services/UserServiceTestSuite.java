@@ -135,14 +135,46 @@ public class UserServiceTestSuite {
         verify(mockUserDAO, times(1)).save(nullUser);
     }
 
+    @Test
+    public void test_authUser_throwsInvalidException_givenInvalidEmailPassword() {
+
+
+        String validEmail = "valid@email.com";
+        String invalidEmail_1 = null;
+        String invalidEmail_2 = "";
+        String validPassword = "pass";
+        String invalidPassword_1 = null;
+        String invalidPassword_2 = "";
+
+        final ThrowingRunnable throwingRunnable_1 =
+                () -> sut.authUser(invalidEmail_1, validPassword);
+        final ThrowingRunnable throwingRunnable_2 =
+                () -> sut.authUser(invalidEmail_2, validPassword);
+        final ThrowingRunnable throwingRunnable_3 =
+                () -> sut.authUser(validEmail, invalidPassword_1);
+        final ThrowingRunnable throwingRunnable_4 =
+                () -> sut.authUser(validEmail, invalidPassword_2);
+
+        Assert.assertThrows("Invalid Email", InvalidRequestException.class,
+                throwingRunnable_1);
+        Assert.assertThrows("Invalid Email", InvalidRequestException.class,
+                throwingRunnable_2);
+        Assert.assertThrows("Invalid Password", InvalidRequestException.class,
+                throwingRunnable_3);
+        Assert.assertThrows("Invalid Password", InvalidRequestException.class,
+                throwingRunnable_4);
+    }
+
 //    @Test
-//    public void test_authUser_throwsInvalidException_givenNullEmail() {
-//        String email = null;
-//        String password = null;
+//        public void test_authUser_returnAuthUser_givenValidEmailPassword() {
+//        AppUser appUser = new AppUser("valid", "valid", "valid@gmail.com", "valid");
+//        String validEmail = "valid@email.com";
+//        String validPassword = "valid";
+//        when(mockUserDAO.findByEmailAndPassword(validEmail,validPassword)).thenReturn(appUser);
 //
-//        when(mockUserDAO.findByEmailAndPassword(email, password)).thenThrow(InvalidRequestException.class);
-//        AppUser actualResult = sut.authUser(email, password);
+//        AppUser authUser = sut.authUser(validEmail, validPassword);
 //    }
+
 
     @Test
     public void test_isAmountValid_returnsTrue_givenValidAmount() {
