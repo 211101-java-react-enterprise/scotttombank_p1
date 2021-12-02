@@ -3,10 +3,7 @@ package com.revature.scottbank.web.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.scottbank.daos.AppUserDAO;
 import com.revature.scottbank.services.UserService;
-import com.revature.scottbank.web.servlets.AuthServlet;
-import com.revature.scottbank.web.servlets.DepositServlet;
-import com.revature.scottbank.web.servlets.UserServlet;
-import com.revature.scottbank.web.servlets.WithdrawServlet;
+import com.revature.scottbank.web.servlets.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,6 +30,7 @@ public class ContextLoaderListener implements ServletContextListener {
         AuthServlet authServlet = new AuthServlet(userService, mapper);
         WithdrawServlet withdrawServlet = new WithdrawServlet(userService, mapper);
         DepositServlet depositServlet = new DepositServlet(userService, mapper);
+        DeleteUserServlet deleteUserServlet = new DeleteUserServlet(userService, mapper);
 
         ServletContext context = sce.getServletContext();
         context.addServlet("UserServlet", userServlet).addMapping("/users");
@@ -41,6 +39,8 @@ public class ContextLoaderListener implements ServletContextListener {
                 "/withdraw");
         context.addServlet("DepositServlet", depositServlet).addMapping(
                 "/deposit");
+        context.addServlet("DeleteUserServlet", deleteUserServlet).addMapping(
+                "/delete-user");
 
         System.out.println("App initialized");
 //        logger.info("App initialized");

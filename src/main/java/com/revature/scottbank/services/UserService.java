@@ -45,6 +45,10 @@ public class UserService {
         return authUser;
     }
 
+    public boolean deleteUser(AppUser user) {
+        return userDAO.removeById(user.getId());
+    }
+
     public boolean isUserValid(AppUser user) {
         if (user == null) return false;
         if (user.getFirstName() == null || user.getFirstName().trim().equals(

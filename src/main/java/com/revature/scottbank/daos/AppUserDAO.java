@@ -69,8 +69,10 @@ public class AppUserDAO {
         return sqlMapper.update(className, changes, id);
     }
 
-    public boolean removeById(String id) {
-        return false;
+    public boolean removeById(String userId) {
+        String className = AppUser.class.getAnnotation(Table.class).name();
+        String[] id = {"user_id", userId};
+        return sqlMapper.delete(className, id);
     }
 
 }

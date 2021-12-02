@@ -47,9 +47,9 @@ public class SQLMapper {
         return false;
     }
 
-    public ResultSet read(String className, String[] identifier) {
+    public ResultSet read(String table, String[] identifier) {
         try (Connection conn = ConnectionFactory.getInstance().getConnection()) {
-            String sql = "select * from " + className + " where " + identifier[0] +
+            String sql = "select * from " + table + " where " + identifier[0] +
                     " = ?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, identifier[1]);
@@ -95,27 +95,21 @@ public class SQLMapper {
         return false;
     }
 
-    public boolean delete(Object o, String col, Object val) {
-        //"DELETE FROM Table WHERE name = ?"
-
+    public boolean delete(String table, String[] id) {
         try(Connection conn = ConnectionFactory.getInstance().getConnection()) {
-            Class<?> objectClass = o.getClass();
-            String table = objectClass.getAnnotation(Table.class).name();
-            String deleteSQL = "delete from " + table + " where " + col + " = ?";
+            String deleteSQL = "delete from " + table + " where " + id[0] +
+                    " = ?";
             PreparedStatement pstmt = conn.prepareStatement(deleteSQL);
-            pstmt.setObject(1, val);
+            pstmt.setObject(1, id[1]);
             int rowDeleted = pstmt.executeUpdate();
             if (rowDeleted != 0){
                 return true;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
-
-
 
     private Method[] getMethodsForSQL(Class<?> objClass) {
         return Arrays.stream(objClass.getDeclaredMethods())
