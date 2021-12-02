@@ -1,7 +1,7 @@
 package com.revature.scottbank.models;
 
-import com.revature.scottbank.orm.annotations.Column;
-import com.revature.scottbank.orm.annotations.Table;
+import com.revature.orm.annotations.Column;
+import com.revature.orm.annotations.Table;
 
 @Table(name = "app_users")
 public class AppUser {

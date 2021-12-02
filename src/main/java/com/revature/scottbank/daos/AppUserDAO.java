@@ -1,8 +1,8 @@
 package com.revature.scottbank.daos;
 
+import com.revature.orm.annotations.Table;
 import com.revature.scottbank.models.AppUser;
-import com.revature.scottbank.orm.annotations.Table;
-import com.revature.scottbank.orm.SQLMapper;
+import com.revature.orm.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
