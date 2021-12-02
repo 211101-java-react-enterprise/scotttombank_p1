@@ -222,6 +222,16 @@ public class UserServiceTestSuite {
 
         Assert.assertTrue("Expected amount to be considered valid",
                 actualResult);
+    }
+
+    @Test
+    public void test_deleteUser_returnsTrue_givenValidUser() {
+        AppUser appUser = new AppUser("valid", "valid", "new@gmail.com", "valid");
+        when(mockUserDAO.removeById(appUser.getId())).thenReturn(true);
+
+        boolean actualResult = sut.deleteUser(appUser);
+
+        Assert.assertTrue("Expected user to be valid for deletion", actualResult);
 
     }
 
