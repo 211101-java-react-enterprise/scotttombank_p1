@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.scottbank.daos.AppUserDAO;
 import com.revature.scottbank.services.UserService;
 import com.revature.scottbank.web.servlets.AuthServlet;
+import com.revature.scottbank.web.servlets.DepositServlet;
 import com.revature.scottbank.web.servlets.UserServlet;
+import com.revature.scottbank.web.servlets.WithdrawServlet;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +21,7 @@ public class ContextLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
 
-        System.out.println("Initializing app...");
+        System.out.println("\nInitializing app...");
 //        logger.info("Initializing app...");
 
         ObjectMapper mapper = new ObjectMapper();
@@ -29,10 +31,16 @@ public class ContextLoaderListener implements ServletContextListener {
 
         UserServlet userServlet = new UserServlet(userService, mapper);
         AuthServlet authServlet = new AuthServlet(userService, mapper);
+        WithdrawServlet withdrawServlet = new WithdrawServlet(userService, mapper);
+        DepositServlet depositServlet = new DepositServlet(userService, mapper);
 
         ServletContext context = sce.getServletContext();
-        context.addServlet("UserServlet", userServlet).addMapping("/users/*");
+        context.addServlet("UserServlet", userServlet).addMapping("/users");
         context.addServlet("AuthServlet", authServlet).addMapping("/auth");
+        context.addServlet("WithdrawServlet", withdrawServlet).addMapping(
+                "/withdraw");
+        context.addServlet("DepositServlet", depositServlet).addMapping(
+                "/deposit");
 
         System.out.println("App initialized");
 //        logger.info("App initialized");

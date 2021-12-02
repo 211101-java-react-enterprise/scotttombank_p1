@@ -14,7 +14,7 @@ public class AppUserDAO {
 
     public AppUser save(AppUser newUser) {
         newUser.setId(UUID.randomUUID().toString());
-        newUser.setBalance(0.0);
+        newUser.setBalance(100.0); //TODO change back
         try {
             if (sqlMapper.create(newUser)) return newUser;
         } catch (SQLException e) {
@@ -50,6 +50,7 @@ public class AppUserDAO {
                 user.setLastName(rs.getString("last_name"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
+                user.setBalance(rs.getDouble("balance"));
                 return user;
             }
         } catch (SQLException e) {

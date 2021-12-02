@@ -84,7 +84,8 @@ public class SQLMapper {
             for (int i = 0; i < changes.length; i++) {
                 pstmt.setObject(i + 1, changes[i][1]);
             }
-            pstmt.setObject(changes.length, id[1]);
+            pstmt.setObject(changes.length + 1, id[1]);
+            System.out.println("\n"+ pstmt);
             if (pstmt.executeUpdate() > 0) {
                 return true;
             }
