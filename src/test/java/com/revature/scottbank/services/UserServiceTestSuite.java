@@ -165,15 +165,17 @@ public class UserServiceTestSuite {
                 throwingRunnable_4);
     }
 
-//    @Test
-//        public void test_authUser_returnAuthUser_givenValidEmailPassword() {
-//        AppUser appUser = new AppUser("valid", "valid", "valid@gmail.com", "valid");
-//        String validEmail = "valid@email.com";
-//        String validPassword = "valid";
-//        when(mockUserDAO.findByEmailAndPassword(validEmail,validPassword)).thenReturn(appUser);
-//
-//        AppUser authUser = sut.authUser(validEmail, validPassword);
-//    }
+    @Test
+        public void test_authUser_returnAuthUser_givenValidEmailPassword() {
+        AppUser appUser = new AppUser("valid", "valid", "valid@gmail.com", "valid");
+        String validEmail = "valid@email.com";
+        String validPassword = "valid";
+        when(mockUserDAO.findByEmailAndPassword(appUser.getEmail(), appUser.getPassword())).thenReturn(appUser);
+
+        AppUser authUser = sut.authUser(appUser.getEmail(), appUser.getPassword());
+
+        Assert.assertEquals(appUser, authUser);
+    }
 
 
     @Test
