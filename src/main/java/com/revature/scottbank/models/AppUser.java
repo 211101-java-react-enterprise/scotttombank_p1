@@ -11,7 +11,7 @@ public class AppUser {
     private String lastName;
     private String email;
     private String password;
-    private Double balance;
+    private Double balance = 0.00d; //init here so that balance is not null
 
     public AppUser(String firstName, String lastName, String email,
                    String password) {
