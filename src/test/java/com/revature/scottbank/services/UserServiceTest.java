@@ -12,7 +12,7 @@ import org.junit.function.ThrowingRunnable;
 
 import static org.mockito.Mockito.*;
 
-public class UserServiceTestSuite {
+public class UserServiceTest {
 
     UserService sut;
     AppUserDAO mockUserDAO;
