@@ -14,7 +14,7 @@ public class AppUserDAO {
 
     public AppUser save(AppUser newUser) {
         newUser.setId(UUID.randomUUID().toString());
-        newUser.setBalance(100.0); //TODO change back
+        newUser.setBalance(0.0);
         try {
             if (sqlMapper.create(newUser)) return newUser;
         } catch (SQLException e) {
@@ -59,7 +59,6 @@ public class AppUserDAO {
         return null;
     }
 
-    //TODO implement update balance with SQLMapper
     public boolean updateBalance(AppUser appUser) {
         String className = AppUser.class.getAnnotation(Table.class).name();
         String[][] changes = new String[1][2];

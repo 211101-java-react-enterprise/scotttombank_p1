@@ -1,14 +1,20 @@
 package com.revature.scottbank.web.servlets;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.revature.scottbank.exceptions.AuthenticationException;
+import com.revature.scottbank.exceptions.InvalidRequestException;
+import com.revature.scottbank.exceptions.ResourcePersistenceException;
 import com.revature.scottbank.models.AppUser;
 import com.revature.scottbank.services.UserService;
+import com.revature.scottbank.web.dtos.ErrorResponse;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
 
 public class UserServlet extends HttpServlet {
 
@@ -23,7 +29,7 @@ public class UserServlet extends HttpServlet {
     // register new user
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
+        PrintWriter respWriter = resp.getWriter();
         resp.setContentType("application/json");
 
         try {
@@ -34,14 +40,23 @@ public class UserServlet extends HttpServlet {
                 resp.setStatus(201);
                 String payload = mapper.writeValueAsString(newUser);
                 resp.getWriter().write(payload);
-            } else {
-                System.out.println("Could not persist user. Check logs");
-                resp.setStatus(500);
             }
-        } catch (JsonParseException e) {
+        } catch (InvalidRequestException | UnrecognizedPropertyException | ResourcePersistenceException e) {
             resp.setStatus(400);
+            ErrorResponse errorResp = new ErrorResponse(400, e);
+            String payload = mapper.writeValueAsString(errorResp);
+            respWriter.write(payload);
+        } catch (AuthenticationException e) {
+            resp.setStatus(401);
+            ErrorResponse errorResp = new ErrorResponse(401, e);
+            String payload = mapper.writeValueAsString(errorResp);
+            respWriter.write(payload);
+        } catch (Throwable t) {
+            resp.setStatus(500);
+            System.out.println(Arrays.toString(t.getStackTrace()));
+            ErrorResponse errorResp = new ErrorResponse(500, "An unexpected exception occurred. Please check the server logs", t);
+            String payload = mapper.writeValueAsString(errorResp);
+            respWriter.write(payload);
         }
-
     }
-
 }

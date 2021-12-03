@@ -6,11 +6,15 @@ import com.revature.scottbank.exceptions.AuthenticationException;
 import com.revature.scottbank.exceptions.InvalidRequestException;
 import com.revature.scottbank.models.AppUser;
 import com.revature.scottbank.services.UserService;
+import com.revature.scottbank.web.dtos.ErrorResponse;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
 
 public class DeleteUserServlet extends HttpServlet {
     private final UserService userService;
@@ -21,21 +25,20 @@ public class DeleteUserServlet extends HttpServlet {
         this.mapper = mapper;
     }
 
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) {
-        try {
-//            DeleteUser deleteUser = mapper.readValue(req.getInputStream(),
-//                    DeleteUser.class);
-            HttpSession currentSession = req.getSession(false);
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        PrintWriter respWriter = resp.getWriter();
+        resp.setContentType("application/json");
 
+        try {
+            HttpSession currentSession = req.getSession(false);
             if (currentSession == null) {
                 throw new AuthenticationException();
             }
-
             AppUser authUserAttribute = (AppUser) currentSession.getAttribute("authUser");
-
             if (authUserAttribute == null) {
                 throw new InvalidRequestException("Unexpected type in session attribute");
             }
+
             userService.deleteUser(authUserAttribute);
             req.getSession().invalidate();
             resp.setStatus(200);
@@ -43,11 +46,20 @@ public class DeleteUserServlet extends HttpServlet {
             resp.getWriter().write(payload);
         } catch (InvalidRequestException | UnrecognizedPropertyException e) {
             resp.setStatus(400);
+            ErrorResponse errorResp = new ErrorResponse(400, e);
+            String payload = mapper.writeValueAsString(errorResp);
+            respWriter.write(payload);
         } catch (AuthenticationException e) {
             resp.setStatus(401);
-        } catch (Exception e) {
-            e.printStackTrace();
+            ErrorResponse errorResp = new ErrorResponse(401, e);
+            String payload = mapper.writeValueAsString(errorResp);
+            respWriter.write(payload);
+        } catch (Throwable t) {
             resp.setStatus(500);
+            System.out.println(Arrays.toString(t.getStackTrace()));
+            ErrorResponse errorResp = new ErrorResponse(500, "An unexpected exception occurred. Please check the server logs", t);
+            String payload = mapper.writeValueAsString(errorResp);
+            respWriter.write(payload);
         }
     }
 }
