@@ -19,7 +19,6 @@ public class AppUser {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-//        this.balance = 0.00d;
     }
 
     public AppUser() { super(); }
@@ -59,13 +58,4 @@ public class AppUser {
                 ", balance=" + balance +
                 '}';
     }
-
-/*
-    Shows only the last 4 digits of acct # with 2 leading asterisks
-    public String getFormattedId() {
-        int idx = id.length() - 4;
-        return "**" + id.substring(idx);
-    }
-*/
-
 }
