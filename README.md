@@ -9,7 +9,7 @@ The Scott-Tom Banking Application is a custom banking app that allows users to r
 Java 8, SQL, JDBC, Maven, Git, JUnit, Mockito, PostgresSQL, Postman, AWS, RDS, AWS CodeBuild, AWS CodePipeline, AWS S3, DevOps, DBBeaver, Elastic Beanstalk, Tomcat
 
 # **Maven Dependencies:**
-ORMorator-p1 1.0(our Custom ORM), junit 4.13.2, mockito 3.9.0, postgresql 42.2.12, log4j 2.14.1, javax.servlet 4.0.1, jackson 2.13.1
+ORMorator-p1 1.0(Custom ORM), junit 4.13.2, mockito 3.9.0, postgresql 42.2.12, log4j 2.14.1, javax.servlet 4.0.1, jackson 2.13.1
 
 # **Maven Plugins:**
 tomcat 2.2, jacoco 0.8.6
