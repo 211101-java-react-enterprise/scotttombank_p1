@@ -1,6 +1,6 @@
 # **Scott-Tom Banking Application**
 
-Team: Scott Hoisington, Minh Tuan Nguyen
+Team: Scott Hoisington, Minh Tuan Nguyen\n
 Link to custom ORM framework:  https://github.com/211101-java-react-enterprise/Ormorator-p1
 
 # **Overview:**
